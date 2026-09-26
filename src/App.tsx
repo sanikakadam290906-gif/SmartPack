@@ -3,7 +3,7 @@ import { Navbar } from './components/Navbar';
 import { Home } from './pages/Home';
 import { FoodDetails } from './pages/FoodDetails';
 import { Results } from './pages/Results';
-import type { FoodDetailsFormData, RecommendationOutput } from './types/recommendation';
+import type { FoodDetailsFormData, RecommendationOutput, NoMatchExplanation } from './types/recommendation';
 import { getPackagingRecommendations } from './services/recommendationService';
 
 const INITIAL_FORM_DATA: FoodDetailsFormData = {
@@ -26,6 +26,7 @@ export function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'details' | 'results'>('home');
   const [formData, setFormData] = useState<FoodDetailsFormData>(INITIAL_FORM_DATA);
   const [recommendations, setRecommendations] = useState<RecommendationOutput[] | null>(null);
+  const [noMatchExplanation, setNoMatchExplanation] = useState<NoMatchExplanation | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<'supabase' | 'local_fallback'>('local_fallback');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -48,6 +49,7 @@ export function App() {
       const result = await getPackagingRecommendations(data);
       setRecommendations(result.recommendations);
       setDataSource(result.source);
+      setNoMatchExplanation(result.noMatchExplanation);
       navigateTo('results');
     } catch (err: any) {
       console.error('Error evaluating recommendations:', err);
@@ -74,12 +76,13 @@ export function App() {
       primaryConcern: 'Moisture Protection',
     });
     setRecommendations(null);
+    setNoMatchExplanation(undefined);
     setErrorMessage(null);
     navigateTo('details');
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--bg-page, #F7F7F5)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--color-bg-page, #F7F7F5)' }}>
       {/* Top Institutional Navigation Bar */}
       <Navbar 
         currentPage={currentPage}
@@ -95,13 +98,13 @@ export function App() {
       {currentPage === 'details' && (
         <>
           {errorMessage && (
-            <div className="container" style={{ maxWidth: '960px', marginTop: '16px' }}>
+            <div className="container" style={{ maxWidth: '880px', marginTop: '16px' }}>
               <div 
                 style={{
                   backgroundColor: '#FDEDED',
                   color: '#5F2120',
                   border: '1px solid #F5C2C7',
-                  borderRadius: '3px',
+                  borderRadius: 'var(--radius-box, 3px)',
                   padding: '12px 16px',
                   fontSize: '14px',
                 }}
@@ -126,6 +129,7 @@ export function App() {
           onBackToDetails={() => navigateTo('details')}
           onStartNew={handleStartNewRecommendation}
           dataSource={dataSource}
+          noMatchExplanation={noMatchExplanation}
         />
       )}
 
@@ -150,11 +154,11 @@ export function App() {
             color: 'var(--color-text-secondary, #555555)',
           }}
         >
-          <div>
+          <div style={{ fontWeight: 600, color: 'var(--color-primary-navy, #062B52)' }}>
             SmartPack
           </div>
           <div>
-            Packaging Recommendation System • Demonstration Version
+            Packaging Recommendation System • Decision-Support Portal
           </div>
         </div>
       </footer>

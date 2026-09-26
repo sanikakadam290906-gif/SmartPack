@@ -24,10 +24,11 @@ export const SelectField: React.FC<SelectFieldProps> = ({
   required,
   placeholder,
   className = '',
+  style,
   ...props
 }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%', boxSizing: 'border-box' }}>
       <label 
         htmlFor={id} 
         style={{ 
@@ -39,8 +40,8 @@ export const SelectField: React.FC<SelectFieldProps> = ({
           gap: '4px'
         }}
       >
-        {label}
-        {required && <span style={{ color: 'var(--color-error, #B02020)', fontSize: '15px' }}>*</span>}
+        <span>{label}</span>
+        {required && <span style={{ color: 'var(--color-error, #B02020)', fontSize: '15px' }} aria-hidden="true">*</span>}
       </label>
 
       <div style={{ position: 'relative', width: '100%' }}>
@@ -50,8 +51,8 @@ export const SelectField: React.FC<SelectFieldProps> = ({
           aria-describedby={error ? `${id}-error` : helperText ? `${id}-helper` : undefined}
           style={{
             width: '100%',
-            height: '42px',
-            padding: '0 32px 0 12px',
+            minHeight: '44px',
+            padding: '0 36px 0 12px',
             backgroundColor: '#FFFFFF',
             border: `1px solid ${error ? 'var(--color-error-border, #D18282)' : 'var(--color-border-box, #C8C8C8)'}`,
             borderRadius: 'var(--radius-box, 3px)',
@@ -61,8 +62,10 @@ export const SelectField: React.FC<SelectFieldProps> = ({
             appearance: 'none',
             WebkitAppearance: 'none',
             cursor: 'pointer',
+            boxSizing: 'border-box',
+            ...style,
           }}
-          className={`gov-select ${className}`}
+          className={`gov-select ${className}`.trim()}
           {...props}
         >
           {placeholder && (
@@ -89,6 +92,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
             display: 'flex',
             alignItems: 'center',
           }}
+          aria-hidden="true"
         >
           <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -102,7 +106,8 @@ export const SelectField: React.FC<SelectFieldProps> = ({
           style={{ 
             fontSize: '13px', 
             color: 'var(--color-text-secondary, #555555)',
-            marginTop: '2px' 
+            marginTop: '2px',
+            lineHeight: 1.4,
           }}
         >
           {helperText}
@@ -117,6 +122,7 @@ export const SelectField: React.FC<SelectFieldProps> = ({
             color: 'var(--color-error, #B02020)',
             marginTop: '2px',
             fontWeight: 600,
+            lineHeight: 1.4,
           }}
         >
           {error}

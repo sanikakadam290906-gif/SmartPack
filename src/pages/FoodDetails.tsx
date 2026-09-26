@@ -112,27 +112,27 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
   const storageOptions: StorageType[] = ['Ambient', 'Chilled', 'Frozen'];
 
   return (
-    <main style={{ flex: 1, padding: '36px 0 54px' }}>
-      <div className="container" style={{ maxWidth: '920px' }}>
+    <main style={{ flex: 1, padding: '28px 0 44px' }}>
+      <div className="container" style={{ maxWidth: '880px' }}>
         
         {/* Page Heading */}
-        <div style={{ marginBottom: '24px' }}>
+        <div style={{ marginBottom: '22px' }}>
           <h1 
             style={{ 
-              fontSize: '30px', 
+              fontSize: 'clamp(22px, 3.5vw, 28px)', 
               fontWeight: 700,
               color: 'var(--color-primary-navy, #062B52)',
               marginBottom: '6px' 
             }}
           >
-            Food & Storage Details
+            Food & Storage Requirements
           </h1>
-          <p style={{ fontSize: '16px', color: 'var(--color-text-secondary, #555555)' }}>
-            Enter food commodity characteristics, environmental storage conditions, and transportation requirements.
+          <p style={{ fontSize: '15px', color: 'var(--color-text-secondary, #555555)', margin: 0 }}>
+            Specify commodity properties, environmental storage parameters, and distribution constraints.
           </p>
         </div>
 
-        {/* Form Container */}
+        {/* Clean Institutional Form Container (No nested cards) */}
         <form 
           onSubmit={handleSubmit}
           noValidate
@@ -140,28 +140,19 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
             backgroundColor: '#FFFFFF',
             border: '1px solid var(--color-border-grey, #D0D0D0)',
             borderRadius: 'var(--radius-box, 3px)',
-            padding: '32px',
+            padding: 'clamp(16px, 3.5vw, 32px)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '32px',
+            gap: '24px',
           }}
         >
-          {/* Section 1: Food Commodity Information */}
-          <div>
-            <h2 
-              style={{ 
-                fontSize: '20px', 
-                fontWeight: 700, 
-                color: 'var(--color-primary-navy, #062B52)', 
-                paddingBottom: '8px', 
-                borderBottom: '1px solid var(--color-border-grey, #D0D0D0)',
-                marginBottom: '18px' 
-              }}
-            >
-              1. Food Commodity Information
+          {/* Section 1: Product Information */}
+          <div className="gov-form-section">
+            <h2 className="gov-form-section-title">
+              1. Product Information
             </h2>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {/* Field 1: Commodity Selection */}
               <div>
                 <SelectField
@@ -179,15 +170,8 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                 />
               </div>
 
-              {/* 2-Column Grid for Commodity Properties */}
-              <div 
-                className="gov-grid-2"
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '18px 24px',
-                }}
-              >
+              {/* 2-Column Responsive Grid */}
+              <div className="gov-grid-2">
                 {/* Field 2: Moisture Content (%) */}
                 <div>
                   <InputField
@@ -220,7 +204,7 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                   >
                     Moisture Sensitivity <span style={{ color: 'var(--color-error, #B02020)' }}>*</span>
                   </label>
-                  <div style={{ display: 'flex', gap: '6px', height: '42px' }}>
+                  <div className="gov-toggle-group">
                     {sensitivityOptions.map((opt) => {
                       const isSelected = formData.moistureSensitivity === opt;
                       return (
@@ -228,16 +212,8 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                           type="button"
                           key={opt}
                           onClick={() => setFormData({ ...formData, moistureSensitivity: opt })}
-                          style={{
-                            flex: 1,
-                            backgroundColor: isSelected ? 'var(--color-primary-navy, #062B52)' : '#FFFFFF',
-                            color: isSelected ? '#FFFFFF' : 'var(--color-text-dark, #1F1F1F)',
-                            border: `1px solid ${isSelected ? 'var(--color-primary-navy, #062B52)' : 'var(--color-border-box, #C8C8C8)'}`,
-                            borderRadius: 'var(--radius-box, 3px)',
-                            fontWeight: isSelected ? 700 : 500,
-                            fontSize: '14px',
-                            cursor: 'pointer',
-                          }}
+                          className={`gov-toggle-btn ${isSelected ? 'gov-toggle-btn-active' : ''}`}
+                          aria-pressed={isSelected}
                         >
                           {opt}
                         </button>
@@ -259,7 +235,7 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                   >
                     Oil / Fat Content <span style={{ color: 'var(--color-error, #B02020)' }}>*</span>
                   </label>
-                  <div style={{ display: 'flex', gap: '6px', height: '42px' }}>
+                  <div className="gov-toggle-group">
                     {fatOptions.map((opt) => {
                       const isSelected = formData.oilFatContent === opt;
                       return (
@@ -267,16 +243,8 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                           type="button"
                           key={opt}
                           onClick={() => setFormData({ ...formData, oilFatContent: opt })}
-                          style={{
-                            flex: 1,
-                            backgroundColor: isSelected ? 'var(--color-primary-navy, #062B52)' : '#FFFFFF',
-                            color: isSelected ? '#FFFFFF' : 'var(--color-text-dark, #1F1F1F)',
-                            border: `1px solid ${isSelected ? 'var(--color-primary-navy, #062B52)' : 'var(--color-border-box, #C8C8C8)'}`,
-                            borderRadius: 'var(--radius-box, 3px)',
-                            fontWeight: isSelected ? 700 : 500,
-                            fontSize: '14px',
-                            cursor: 'pointer',
-                          }}
+                          className={`gov-toggle-btn ${isSelected ? 'gov-toggle-btn-active' : ''}`}
+                          aria-pressed={isSelected}
                         >
                           {opt}
                         </button>
@@ -305,53 +273,37 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                     placeholder="e.g. 6.5"
                   />
                 </div>
+              </div>
 
-                {/* Field 6: Respiration Rate */}
-                <div style={{ gridColumn: 'span 2' }}>
-                  <SelectField
-                    id="respiration-rate-select"
-                    label="Respiration Rate"
-                    required
-                    helperText="Relevant for fresh horticultural produce (fruits and vegetables)."
-                    value={formData.respirationRate}
-                    onChange={(e) => setFormData({ ...formData, respirationRate: e.target.value as RespirationRate })}
-                    options={[
-                      { value: 'Not Applicable', label: 'Not Applicable (Processed / Dry / Meat / Dairy)' },
-                      { value: 'Very Low', label: 'Very Low (Nuts, Dried Fruits, Onions)' },
-                      { value: 'Low', label: 'Low (Apples, Potatoes, Citrus)' },
-                      { value: 'Moderate', label: 'Moderate (Bananas, Mangoes, Tomatoes)' },
-                      { value: 'High', label: 'High (Strawberries, Avocados, Cauliflower)' },
-                      { value: 'Very High', label: 'Very High (Spinach, Sweet Corn, Asparagus)' },
-                    ]}
-                  />
-                </div>
+              {/* Field 6: Respiration Rate */}
+              <div>
+                <SelectField
+                  id="respiration-rate-select"
+                  label="Respiration Rate"
+                  required
+                  helperText="Relevant for fresh horticultural produce (fruits and vegetables)."
+                  value={formData.respirationRate}
+                  onChange={(e) => setFormData({ ...formData, respirationRate: e.target.value as RespirationRate })}
+                  options={[
+                    { value: 'Not Applicable', label: 'Not Applicable (Processed / Dry / Meat / Dairy)' },
+                    { value: 'Very Low', label: 'Very Low (Nuts, Dried Fruits, Onions)' },
+                    { value: 'Low', label: 'Low (Apples, Potatoes, Citrus)' },
+                    { value: 'Moderate', label: 'Moderate (Bananas, Mangoes, Tomatoes)' },
+                    { value: 'High', label: 'High (Strawberries, Avocados, Cauliflower)' },
+                    { value: 'Very High', label: 'Very High (Spinach, Sweet Corn, Asparagus)' },
+                  ]}
+                />
               </div>
             </div>
           </div>
 
-          {/* Section 2: Shelf Life and Storage Conditions */}
-          <div>
-            <h2 
-              style={{ 
-                fontSize: '20px', 
-                fontWeight: 700, 
-                color: 'var(--color-primary-navy, #062B52)', 
-                paddingBottom: '8px', 
-                borderBottom: '1px solid var(--color-border-grey, #D0D0D0)',
-                marginBottom: '18px' 
-              }}
-            >
-              2. Shelf Life and Storage Conditions
+          {/* Section 2: Storage & Shelf Life */}
+          <div className="gov-form-section">
+            <h2 className="gov-form-section-title">
+              2. Storage & Shelf Life
             </h2>
 
-            <div 
-              className="gov-grid-2"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '18px 24px',
-              }}
-            >
+            <div className="gov-grid-2">
               {/* Field 7: Target Shelf Life */}
               <div>
                 <label 
@@ -378,35 +330,20 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                         if (errors.targetShelfLifeValue) setErrors({ ...errors, targetShelfLifeValue: '' });
                       }}
                       placeholder="e.g. 90"
+                      aria-invalid={!!errors.targetShelfLifeValue}
+                      className="gov-input"
                       style={{
-                        width: '100%',
-                        height: '42px',
-                        padding: '0 12px',
-                        backgroundColor: '#FFFFFF',
-                        border: `1px solid ${errors.targetShelfLifeValue ? 'var(--color-error-border, #D18282)' : 'var(--color-border-box, #C8C8C8)'}`,
-                        borderRadius: 'var(--radius-box, 3px)',
-                        color: 'var(--color-text-dark, #1F1F1F)',
-                        fontSize: '15px',
-                        outline: 'none',
+                        borderColor: errors.targetShelfLifeValue ? 'var(--color-error-border, #D18282)' : undefined,
                       }}
                     />
                   </div>
-                  <div style={{ flex: 1.2 }}>
+                  <div style={{ flex: 1.3 }}>
                     <select
                       id="shelf-life-unit-select"
                       value={formData.targetShelfLifeUnit}
                       onChange={(e) => setFormData({ ...formData, targetShelfLifeUnit: e.target.value as ShelfLifeUnit })}
-                      style={{
-                        width: '100%',
-                        height: '42px',
-                        padding: '0 10px',
-                        backgroundColor: '#FFFFFF',
-                        border: '1px solid var(--color-border-box, #C8C8C8)',
-                        borderRadius: 'var(--radius-box, 3px)',
-                        color: 'var(--color-text-dark, #1F1F1F)',
-                        fontSize: '15px',
-                        cursor: 'pointer',
-                      }}
+                      className="gov-select"
+                      style={{ padding: '0 8px' }}
                     >
                       <option value="Days">Days</option>
                       <option value="Weeks">Weeks</option>
@@ -415,7 +352,7 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                   </div>
                 </div>
                 {errors.targetShelfLifeValue && (
-                  <span style={{ fontSize: '13px', color: 'var(--color-error, #B02020)', marginTop: '2px', display: 'block', fontWeight: 600 }}>
+                  <span style={{ fontSize: '13px', color: 'var(--color-error, #B02020)', marginTop: '4px', display: 'block', fontWeight: 600 }}>
                     {errors.targetShelfLifeValue}
                   </span>
                 )}
@@ -432,9 +369,9 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                     marginBottom: '6px'
                   }}
                 >
-                  Storage Type <span style={{ color: 'var(--color-error, #B02020)' }}>*</span>
+                  Storage Condition <span style={{ color: 'var(--color-error, #B02020)' }}>*</span>
                 </label>
-                <div style={{ display: 'flex', gap: '6px', height: '42px' }}>
+                <div className="gov-toggle-group">
                   {storageOptions.map((opt) => {
                     const isSelected = formData.storageType === opt;
                     return (
@@ -448,16 +385,8 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
                           if (opt === 'Ambient' && (newTemp === '' || Number(newTemp) < 15)) newTemp = 25;
                           setFormData({ ...formData, storageType: opt, storageTemperature: newTemp });
                         }}
-                        style={{
-                          flex: 1,
-                          backgroundColor: isSelected ? 'var(--color-primary-navy, #062B52)' : '#FFFFFF',
-                          color: isSelected ? '#FFFFFF' : 'var(--color-text-dark, #1F1F1F)',
-                          border: `1px solid ${isSelected ? 'var(--color-primary-navy, #062B52)' : 'var(--color-border-box, #C8C8C8)'}`,
-                          borderRadius: 'var(--radius-box, 3px)',
-                          fontWeight: isSelected ? 700 : 500,
-                          fontSize: '14px',
-                          cursor: 'pointer',
-                        }}
+                        className={`gov-toggle-btn ${isSelected ? 'gov-toggle-btn-active' : ''}`}
+                        aria-pressed={isSelected}
                       >
                         {opt}
                       </button>
@@ -506,99 +435,79 @@ export const FoodDetails: React.FC<FoodDetailsProps> = ({
             </div>
           </div>
 
-          {/* Section 3: Transportation and Packaging Requirements */}
-          <div>
-            <h2 
-              style={{ 
-                fontSize: '20px', 
-                fontWeight: 700, 
-                color: 'var(--color-primary-navy, #062B52)', 
-                paddingBottom: '8px', 
-                borderBottom: '1px solid var(--color-border-grey, #D0D0D0)',
-                marginBottom: '18px' 
-              }}
-            >
-              3. Transportation and Packaging Requirements
+          {/* Section 3: Transportation */}
+          <div className="gov-form-section">
+            <h2 className="gov-form-section-title">
+              3. Transportation
             </h2>
 
-            <div 
-              className="gov-grid-2"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '18px 24px',
-              }}
-            >
-              {/* Field 11: Transportation Conditions */}
-              <div>
-                <SelectField
-                  id="transportation-condition-select"
-                  label="Transportation Conditions"
-                  required
-                  value={formData.transportationCondition}
-                  onChange={(e) => setFormData({ ...formData, transportationCondition: e.target.value as TransportationCondition })}
-                  options={[
-                    { value: 'Normal Transportation', label: 'Normal Transportation' },
-                    { value: 'Refrigerated Transportation', label: 'Refrigerated Transportation' },
-                    { value: 'Frozen Transportation', label: 'Frozen Transportation' },
-                    { value: 'Long-Distance Transportation', label: 'Long-Distance Transportation' },
-                    { value: 'High Vibration / Mechanical Stress', label: 'High Vibration / Mechanical Stress' },
-                    { value: 'Not Specified', label: 'Not Specified' },
-                  ]}
-                />
-              </div>
-
-              {/* Field 12: Primary Packaging Concern */}
-              <div>
-                <SelectField
-                  id="primary-packaging-concern-select"
-                  label="Primary Packaging Concern"
-                  required
-                  value={formData.primaryConcern}
-                  onChange={(e) => setFormData({ ...formData, primaryConcern: e.target.value as PrimaryConcern })}
-                  options={[
-                    { value: 'Moisture Protection', label: 'Moisture Protection' },
-                    { value: 'Oxygen Protection', label: 'Oxygen Protection' },
-                    { value: 'Light Protection', label: 'Light Protection' },
-                    { value: 'Mechanical Strength', label: 'Mechanical Strength' },
-                    { value: 'Temperature Resistance', label: 'Temperature Resistance' },
-                    { value: 'Extended Shelf Life', label: 'Extended Shelf Life' },
-                    { value: 'Cost Efficiency', label: 'Cost Efficiency' },
-                    { value: 'Sustainability', label: 'Sustainability' },
-                    { value: 'Gas Exchange / Respiration', label: 'Gas Exchange / Respiration' },
-                  ]}
-                />
-              </div>
+            <div>
+              <SelectField
+                id="transportation-condition-select"
+                label="Transportation Conditions"
+                required
+                value={formData.transportationCondition}
+                onChange={(e) => setFormData({ ...formData, transportationCondition: e.target.value as TransportationCondition })}
+                options={[
+                  { value: 'Normal Transportation', label: 'Normal Transportation' },
+                  { value: 'Refrigerated Transportation', label: 'Refrigerated Transportation' },
+                  { value: 'Frozen Transportation', label: 'Frozen Transportation' },
+                  { value: 'Long-Distance Transportation', label: 'Long-Distance Transportation' },
+                  { value: 'High Vibration / Mechanical Stress', label: 'High Vibration / Mechanical Stress' },
+                  { value: 'Not Specified', label: 'Not Specified' },
+                ]}
+              />
             </div>
           </div>
 
-          {/* Form Actions */}
-          <div 
-            style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              paddingTop: '20px',
-              borderTop: '1px solid var(--color-border-grey, #D0D0D0)',
-              marginTop: '4px'
-            }}
-          >
-            <Button 
-              type="button" 
-              variant="secondary" 
-              onClick={onBack}
-              id="back-to-home-btn"
-            >
-              Back to Home
-            </Button>
+          {/* Section 4: Packaging Requirement */}
+          <div className="gov-form-section">
+            <h2 className="gov-form-section-title">
+              4. Packaging Requirement
+            </h2>
 
+            <div>
+              <SelectField
+                id="primary-packaging-concern-select"
+                label="Primary Packaging Concern"
+                required
+                value={formData.primaryConcern}
+                onChange={(e) => setFormData({ ...formData, primaryConcern: e.target.value as PrimaryConcern })}
+                options={[
+                  { value: 'Moisture Protection', label: 'Moisture Protection' },
+                  { value: 'Oxygen Protection', label: 'Oxygen Protection' },
+                  { value: 'Light Protection', label: 'Light Protection' },
+                  { value: 'Mechanical Strength', label: 'Mechanical Strength' },
+                  { value: 'Temperature Resistance', label: 'Temperature Resistance' },
+                  { value: 'Extended Shelf Life', label: 'Extended Shelf Life' },
+                  { value: 'Cost Efficiency', label: 'Cost Efficiency' },
+                  { value: 'Sustainability', label: 'Sustainability' },
+                  { value: 'Gas Exchange / Respiration', label: 'Gas Exchange / Respiration' },
+                ]}
+              />
+            </div>
+          </div>
+
+          {/* Form Actions: Clear Button Hierarchy */}
+          <div className="gov-action-group">
             <Button 
               type="submit" 
               variant="primary"
               id="submit-food-details-btn"
               disabled={isLoading}
+              fullWidthOnMobile
             >
               {isLoading ? 'Evaluating Criteria...' : 'Continue to Recommendations'}
+            </Button>
+
+            <Button 
+              type="button" 
+              variant="secondary" 
+              onClick={onBack}
+              id="back-to-home-btn"
+              fullWidthOnMobile
+            >
+              Back to Home
             </Button>
           </div>
         </form>

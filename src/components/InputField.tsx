@@ -17,10 +17,11 @@ export const InputField: React.FC<InputFieldProps> = ({
   helperText,
   required,
   className = '',
+  style,
   ...props
 }) => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', width: '100%', boxSizing: 'border-box' }}>
       <label 
         htmlFor={id} 
         style={{ 
@@ -32,8 +33,8 @@ export const InputField: React.FC<InputFieldProps> = ({
           gap: '4px'
         }}
       >
-        {label}
-        {required && <span style={{ color: 'var(--color-error, #B02020)', fontSize: '15px' }}>*</span>}
+        <span>{label}</span>
+        {required && <span style={{ color: 'var(--color-error, #B02020)', fontSize: '15px' }} aria-hidden="true">*</span>}
       </label>
 
       <div style={{ display: 'flex', position: 'relative', width: '100%' }}>
@@ -43,7 +44,7 @@ export const InputField: React.FC<InputFieldProps> = ({
           aria-describedby={error ? `${id}-error` : helperText ? `${id}-helper` : undefined}
           style={{
             width: '100%',
-            height: '42px',
+            minHeight: '44px',
             padding: suffix ? '0 40px 0 12px' : '0 12px',
             backgroundColor: '#FFFFFF',
             border: `1px solid ${error ? 'var(--color-error-border, #D18282)' : 'var(--color-border-box, #C8C8C8)'}`,
@@ -51,8 +52,10 @@ export const InputField: React.FC<InputFieldProps> = ({
             color: 'var(--color-text-dark, #1F1F1F)',
             fontSize: '15px',
             outline: 'none',
+            boxSizing: 'border-box',
+            ...style,
           }}
-          className={`gov-input ${className}`}
+          className={`gov-input ${className}`.trim()}
           {...props}
         />
         {suffix && (
@@ -64,7 +67,7 @@ export const InputField: React.FC<InputFieldProps> = ({
               transform: 'translateY(-50%)',
               color: 'var(--color-text-secondary, #555555)',
               fontSize: '14px',
-              fontWeight: 500,
+              fontWeight: 600,
               pointerEvents: 'none',
             }}
           >
@@ -79,7 +82,8 @@ export const InputField: React.FC<InputFieldProps> = ({
           style={{ 
             fontSize: '13px', 
             color: 'var(--color-text-secondary, #555555)',
-            marginTop: '2px' 
+            marginTop: '2px',
+            lineHeight: 1.4,
           }}
         >
           {helperText}
@@ -94,6 +98,7 @@ export const InputField: React.FC<InputFieldProps> = ({
             color: 'var(--color-error, #B02020)',
             marginTop: '2px',
             fontWeight: 600,
+            lineHeight: 1.4,
           }}
         >
           {error}

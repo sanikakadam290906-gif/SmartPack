@@ -91,6 +91,20 @@ export interface RequirementMatchDetails {
   gasExchange: string;
 }
 
+export type NoMatchReasonCategory = 
+  | 'CONFLICTING_REQUIREMENTS'
+  | 'NO_MATERIAL_AVAILABLE'
+  | 'INSUFFICIENT_DATA'
+  | 'STORAGE_PRODUCT_INCOMPATIBILITY'
+  | 'SHELF_LIFE_LIMITATION'
+  | 'MULTIPLE_REQUIREMENTS_UNSATISFIED';
+
+export interface NoMatchExplanation {
+  category: NoMatchReasonCategory;
+  userMessage: string;
+  suggestedChanges: string[];
+}
+
 export interface RecommendationOutput {
   material: PackagingMaterialData;
   status: RecommendationStatus;

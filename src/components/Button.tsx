@@ -3,15 +3,18 @@ import React from 'react';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary';
   size?: 'sm' | 'md' | 'lg';
+  fullWidthOnMobile?: boolean;
   children: React.ReactNode;
 }
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
+  fullWidthOnMobile = false,
   children,
   className = '',
   disabled,
+  style,
   ...props
 }) => {
   const baseStyles: React.CSSProperties = {
@@ -24,27 +27,28 @@ export const Button: React.FC<ButtonProps> = ({
     border: '1px solid transparent',
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.6 : 1,
-    transition: 'background-color 0.15s ease, border-color 0.15s ease',
+    transition: 'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
     textDecoration: 'none',
-    whiteSpace: 'nowrap',
     userSelect: 'none',
+    minHeight: '44px',
+    boxSizing: 'border-box',
   };
 
   const sizeStyles: Record<string, React.CSSProperties> = {
     sm: {
       padding: '6px 14px',
       fontSize: '14px',
-      height: '36px',
+      minHeight: '38px',
     },
     md: {
-      padding: '10px 22px',
+      padding: '8px 20px',
       fontSize: '15px',
-      height: '42px',
+      minHeight: '44px',
     },
     lg: {
-      padding: '12px 28px',
+      padding: '10px 24px',
       fontSize: '16px',
-      height: '46px',
+      minHeight: '48px',
     }
   };
 
@@ -64,14 +68,17 @@ export const Button: React.FC<ButtonProps> = ({
     };
   }
 
+  const mobileClass = fullWidthOnMobile ? 'gov-btn-mobile-full' : '';
+
   return (
     <button
       style={{
         ...baseStyles,
         ...sizeStyles[size],
         ...variantStyle,
+        ...style,
       }}
-      className={`gov-btn gov-btn-${variant} ${className}`}
+      className={`gov-btn gov-btn-${variant} ${mobileClass} ${className}`.trim()}
       disabled={disabled}
       {...props}
     >
